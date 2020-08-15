@@ -1,0 +1,47 @@
+{
+
+    "writeUpload" : {
+        "comportOffset" : 0,
+        "plotEnable" : true,
+        "csvEnable" : false
+    },
+
+    "ipConfig" : {
+        "202" : "128.53.66.37",
+        "203" : "128.53.66.38",
+        "205" : "128.53.66.40",
+        "208" : "128.53.66.43",
+        "209" : "128.53.66.44",
+        "210" : "128.53.66.45"
+    },
+
+    "serial" : {
+        "baudrate" : 9600,
+        "timeout" : 2,
+        "delay1" : 0.04,
+        "fdelay" : 0.01,
+        "decodeBits" : 32,
+        "max_duration" : 6
+    },
+
+    "pgpara" : {
+        "url" : "128.53.1.198/",
+        "port" : "5432",
+        "database" : "spt_db",
+        "schema" : "torqueandspeed",
+        "user" : "spt_admin",
+        "password" : "sptadmin"
+    },
+
+    "graph" : {
+        "picPath" : "",
+        "controlLine" : 50,
+        "CSRa" : 1.7,
+        "facecolor" : "lightslategray",
+        "torquecolor" : "r",
+        "speedcolor" : "b",
+        "gridcolor" : "g",
+        "pngdate" : "%d-%m-%Y_%H_%M_%S",
+        "dateonGraph" : "%d %b %Y, %H:%M:%S"
+    }
+}
