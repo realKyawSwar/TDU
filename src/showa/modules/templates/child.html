@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<p>Dear Engineers,</p>
+<p>TDU torque graph collection for L{{ line }} is completed. However, there are some torque graphs which need your attention and action.</p>
+<p>Kindly refer to the table below for abnormal TDU Torque graphs.</p>
+    <!-- <h3>NG TDU Torque graphs</h3> -->
+    <p>
+    <table style="width:50%">
+        <caption>Abnormal TDU Torque graphs</caption>
+        <tr>
+            <th>Chamber</th>
+            <th>Tmax</th>
+            <th>Tmin</th>
+            <th>Const Avg</th>
+        </tr>
+        {% for ch in data['chambers'] %}
+        <tr>
+            <td><a href="{{ ch['link'] }}">{{ ch['chamber'] }}</a></td>
+            <td>{{ ch['tmax'] }}</td>
+            <td>{{ ch['tmin'] }}</td>
+            <td>{{ ch['csra'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </p>
+
+    {% if ngChambers|length != 0 %}
+        <p>The following chambers are unresponsive to serial commands thus torque graphs for these chambers are not available. Remedial actions maybe checking the connectors at console server and tdu junction box.</p>
+        <ul>
+            {% for n in ngChambers %}
+            <li>{{n}}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Good job! There are no chambers in L{{ line }} which are unresponsive to serial commands.</p>
+    {% endif %}
+
+    <p>
+Kindly click <a href="R:\SPECIAL\MEASUREMENT\PROD\CHECKLIST\Sputter Equipment\TDU Torque">here</a> to access all lines' data.</p>
+<p>
+Thank you.<br>
+Best regards,<br>
+TDU Automation Bot
+</p>
+{% endblock %}
