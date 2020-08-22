@@ -3,7 +3,7 @@
     "writeUpload" : {
         "comportOffset" : 0,
         "plotEnable" : true,
-        "csvEnable" : false
+        "csvEnable" : true
     },
 
     "ipConfig" : {
