@@ -47,6 +47,7 @@ def read_checker(ser):
 # write command and data in serial string format
 def write_data(comPort, ser):
     cleanList = []
+    result = {}
     setupCmd = [bytearray(b'\x01036\x0200\x03FE'),
                 bytearray(b'\x01036\x0203\x0301'),
                 bytearray(b'\x01036\x0202\x0300'),
@@ -131,7 +132,8 @@ def write_data(comPort, ser):
                 cleanList.append(x)
             if k == 256:
                 break
-    return (cleanList)
+    result['original'] = cleanList
+    return result
 
 
 # convert hexstring to signed decimal
@@ -142,45 +144,25 @@ def decodeOut(hexstr, bits):
     return(value)
 
 
-def cleanSpeedata(inComing):
-    clean_data = []
-    for j in inComing:
-        # print(j)
-        if j != '' and len(j) < 20:
-            x = j[:-3]
-            s = str(x[7:])
-            if s != '':
-                a = decodeOut(s, config.decodeBits)
-                a = (a/100000)*1.55
-                clean_data.append(str(a))
-            else:
-                pass
-        else:
-            pass
-    return (clean_data)
+def speedClean(B_array):
+    firstPart = B_array[:-7]
+    midPart = str(firstPart[7:])
+    speed = midPart[:-4]
+    speed_result = decodeOut(speed, config.decodeBits)
+    return speed_result
 
 
-def cleanTorquedata(inComing):
-    clean_data = []
-    for j in inComing:
-        # print(j)
-        if j != '' and len(j) < 20:
-            x = j[:-3]
-            s = str(x[7:])
-            if s != '':
-                a = decodeOut(s, config.decodeBits)
-                a = a*1.5/1000000
-                clean_data.append(str(a))
-            else:
-                pass
-        else:
-            pass
-    return (clean_data)
+def torqueClean(B_array):
+    firstPart = B_array[:-7]
+    midPart = str(firstPart[7:])
+    torque = midPart[4:]
+    torque_result = decodeOut(torque, config.decodeBits)/10
+    return torque_result
+
 
 def main():
-    speed1  = bytearray(b'\x010B6\x020082FFFFFF00FF\x0307')
-    print(setupCmd(speed1))
-
+    speed1 = bytearray(b'\x010B6\x020082FFFFFF00FF\x0307')
+    print(speed1)
 
 
 if __name__ == '__main__':

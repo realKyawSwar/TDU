@@ -1,4 +1,4 @@
-from showa.modules import dataProcess, plotting, config, cmdMake
+from showa.modules import dataProcess, plotting, config
 from showa.lib.database import Postgres
 from showa.lib import logs
 import pandas as pd
@@ -8,7 +8,10 @@ import pandas as pd
 def write_readSer(comPort, ser):
     print("reading data..")
     dataDict = dataProcess.write_data(comPort, ser)
-    df = pd.DataFrame(dataDict)
+    df = pd.DataFrame.from_dict(dataDict)
+    df['Speed'] = df['original'].apply(lambda x: dataProcess.speedClean(x))
+    df['Torque'] = df['original'].apply(lambda x: dataProcess.torqueClean(x))
+    df = df.drop(['original'], axis=1)
     return(df)
 
 

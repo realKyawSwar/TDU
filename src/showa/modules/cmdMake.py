@@ -48,8 +48,8 @@ def fetchCmd():
 
 
 def main():
-    print(speedCmd2())
-
+    # print(speedCmd2())
+    print("ok")
 
 
 if __name__ == '__main__':
