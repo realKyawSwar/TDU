@@ -98,7 +98,6 @@ def write_speed(speed1, speed2, comPort, ser):
         if(elapsedTime(x) >= config.max_duration):
             config.unresponsiveList.append(comPort)
             logs.logError("Port is not working", includeErrorLine=True)
-            # raise Exception("Port is not working")
             raise portDisconnectError
             break
     if y != b'':
@@ -120,8 +119,7 @@ def write_speed(speed1, speed2, comPort, ser):
         sleep(config.delay1)
         read_setup(ser)
         ser.reset_input_buffer()
-        print("Fetching speed data")
-        # logs.logInfo("Fetching speed data")
+        print("Fetching data")
         k = 0
         while k < 257:
             for i in cmdMake.fetchCmd():
@@ -130,9 +128,6 @@ def write_speed(speed1, speed2, comPort, ser):
                 x = read_serial(ser)
                 print(x)
                 while len(x) is None or len(x) > 18 and k < 257:
-                    # print(i)
-                    # ser.write(i)
-                    # sleep(config.delay1)
                     x = read_serial(ser)
                     if len(x) != 18:
                         x = read_serial(ser)
@@ -140,96 +135,8 @@ def write_speed(speed1, speed2, comPort, ser):
                         break
                 k = k+1
                 cleanList.append(x)
-                # print(k)
             if k == 256:
                 break
-        # print(k)
-        # print("fetching speed data complete.")
-        # logs.logInfo("Fetching speed data completed")
-    return (cleanList)
-
-
-# write command and data in serial string format
-def write_torque(torque1, torque2, ser):
-    cleanList = []
-    ser.reset_input_buffer()
-    ser.write(cmdMake.dummyCmd())
-    sleep(config.delay1)
-    read_setup(ser)
-    ser.reset_input_buffer()
-    print("setting up for torque...")
-    # logs.logInfo("Setting up for torque")
-    for i in setupCmd(torque1):
-        ser.write(i)
-        sleep(config.delay1)
-        x = read_setup(ser)
-    print("checking ZSP for torque")
-    ser.reset_input_buffer()
-    # logs.logInfo("Checking ZSP for torque")
-    # start timer
-    x = resetElapsedTime()
-    ser.reset_input_buffer()
-    ser.write(cmdMake.checkerCmd())
-    sleep(config.delay1)
-    y = read_checker(ser)
-    ser.reset_input_buffer()
-    print(y)
-    while y == b'':
-        ser.write(cmdMake.checkerCmd())
-        sleep(config.delay1)
-        y = read_checker(ser)
-        print(y)
-        if(elapsedTime(x) >= config.max_duration):
-            logs.logError("The line is idle or Port is not working",
-                          includeErrorLine=True)
-            raise Exception("The line is idle or port is not working")
-            break
-    if y != b'':
-        x = resetElapsedTime()
-        while y != bytearray(b'\x020A0000\x0334'):
-            ser.write(cmdMake.checkerCmd())
-            sleep(config.delay1)
-            y = read_checker(ser)
-            print(y)
-            if(elapsedTime(x) >= config.max_duration):
-                logs.logError("The carrier is not moving.",
-                              includeErrorLine=True)
-                raise Exception("The carrier is not moving.")
-                break
-        ser.reset_input_buffer()
-        ser.write(torque2)
-        sleep(config.delay1)
-        read_setup(ser)
-        ser.reset_input_buffer()
-        # print("fetching torque data...")
-        # logs.logInfo("Fetching torque data")
-        k = 0
-        while k < 257:
-            for i in cmdMake.fetchCmd():
-                ser.write(i)
-                sleep(config.delay1)
-                x = read_serial(ser)
-                print(x)
-                while len(x) is None or len(x) > 18 and k < 257:
-                    print(i)
-                    ser.write(i)
-                    sleep(config.delay1)
-                    x = read_serial(ser)
-                    if len(x) != 18:
-                        print(i)
-                        ser.write(i)
-                        sleep(config.delay1)
-                        x = read_serial(ser)
-                    elif len(x) == 18:
-                        break
-                k = k+1
-                cleanList.append(x)
-                # print(k)
-            if k == 256:
-                break
-        # print(k)
-        # print("fetching torque complete.")
-        # logs.logInfo("Fetching torque data completed")
     return (cleanList)
 
 
