@@ -20,15 +20,13 @@ def newDir(dateTime, lineNo):
     try:
         os.makedirs(dirName)
         print("Directory ", dirName,  " Created ")
-        # logs.logInfo("Directory for L{} is created".format(lineNo))
     except FileExistsError:
-        # print("Directory ", dirName,  " already exists")
+        print("Directory ", dirName,  " already exists")
         pass
 
     # Create target directory & all intermediate directories if don't exists
     if not os.path.exists(dirName):
         os.makedirs(dirName)
-        # print("Directory ", dirName,  " Created hor ")
     else:
         print("Directory Okay")
     return(dirName)
@@ -36,7 +34,6 @@ def newDir(dateTime, lineNo):
 
 def picName(comport, lineNo):
     dt_string = datetime.now().strftime(config.pngdate)
-    # dateTime = datetime.now().strftime("%d-%m-%Y_%H_%M_%S")
     picName = lineNo + "_" + comport + "_" + dt_string
     return(picName)
 

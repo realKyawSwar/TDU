@@ -47,17 +47,10 @@ def fetchCmd():
     return(fetchCmdLst)
 
 
-def speedCmd1():
-    return cmdStr("0B6", "0082FFFFFF00FF")
+def main():
+    print(speedCmd2())
 
 
-def speedCmd2():
-    return cmdStr("036", "81")
 
-
-def torqueCmd1():
-    return cmdStr("0B6", "0082FFFFFF01FF")
-
-
-def torqueCmd2():
-    return cmdStr("036", "82")
+if __name__ == '__main__':
+    main()

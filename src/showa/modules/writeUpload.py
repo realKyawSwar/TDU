@@ -6,17 +6,9 @@ import pandas as pd
 
 # return clean dataframe
 def write_readSer(comPort, ser):
-    print("reading speed..")
-    speedList = dataProcess.write_speed(cmdMake.speedCmd1(),
-                                        cmdMake.speedCmd2(), comPort, ser)
-    print("reading torque..")
-    torqueList = dataProcess.write_torque(cmdMake.torqueCmd1(),
-                                          cmdMake.torqueCmd2(), ser)
-    cleanSpeedList = dataProcess.cleanSpeeddata(speedList)
-    cleanTorqueList = dataProcess.cleanTorquedata(torqueList)
-    # combine lists to form a dictionary
-    tempDict = {'Speed': cleanSpeedList, 'Torque': cleanTorqueList}
-    df = pd.DataFrame(tempDict)
+    print("reading data..")
+    dataDict = dataProcess.write_data(comPort, ser)
+    df = pd.DataFrame(dataDict)
     return(df)
 
 

@@ -2,6 +2,7 @@ from time import sleep
 from showa.lib import logs
 from showa.modules import config, cmdMake
 import time
+# import config, cmdMake
 
 
 class Error(Exception):
@@ -43,44 +44,37 @@ def read_checker(ser):
     return(checkByte)
 
 
-def setupCmd(dat5):
-    i = "036"
-    j = "0B6"
-    a = {}
-    a['dat1'] = cmdMake.cmdStr(i, "00")
-    a['dat2'] = cmdMake.cmdStr(i, "03")
-    a['dat3'] = cmdMake.cmdStr(i, "02")
-    a['dat4'] = cmdMake.cmdStr(i, "01")
-    a['dat5'] = dat5
-    a['dat6'] = cmdMake.cmdStr(j, "010004")
-    a['dat7'] = cmdMake.cmdStr(j, "028182")
-    a['dat8'] = cmdMake.cmdStr(j, "810000")
-    a['dat9'] = cmdMake.cmdStr(j, "820000")
-    a['dat10'] = cmdMake.cmdStr(j, "830000")
-    a['dat11'] = cmdMake.cmdStr(j, "840000")
-    a['dat12'] = cmdMake.cmdStr(j, "850000")
-    a['dat13'] = cmdMake.cmdStr(j, "860000")
-    a['dat14'] = cmdMake.cmdStr(j, "870000")
-    a['dat15'] = cmdMake.cmdStr(j, "880000")
-    a['dat16'] = cmdMake.cmdStr(j, "101EA5")
-    listy = list(a.values())
-    return(listy)
-
-
 # write command and data in serial string format
-def write_speed(speed1, speed2, comPort, ser):
+def write_data(comPort, ser):
     cleanList = []
+    setupCmd = [bytearray(b'\x01036\x0200\x03FE'),
+                bytearray(b'\x01036\x0203\x0301'),
+                bytearray(b'\x01036\x0202\x0300'),
+                bytearray(b'\x01036\x0201\x03FF'),
+                bytearray(b'\x010B6\x020082FFFFFF00FF\x0307'),
+                bytearray(b'\x010B6\x02010004\x03D2'),
+                bytearray(b'\x010B6\x02028182\x03E2'),
+                bytearray(b'\x010B6\x02810000\x03D6'),
+                bytearray(b'\x010B6\x02820000\x03D7'),
+                bytearray(b'\x010B6\x02830000\x03D8'),
+                bytearray(b'\x010B6\x02840000\x03D9'),
+                bytearray(b'\x010B6\x02850000\x03DA'),
+                bytearray(b'\x010B6\x02860000\x03DB'),
+                bytearray(b'\x010B6\x02870000\x03DC'),
+                bytearray(b'\x010B6\x02880000\x03DD'),
+                bytearray(b'\x010B6\x02101EA5\x03FA')]
+    speed2 = bytearray(b'\x01036\x0281\x0307')
     ser.reset_input_buffer()
     ser.write(cmdMake.dummyCmd())
     sleep(config.delay1)
     print(read_setup(ser))
-    print("setting up for speed...")
-    for i in setupCmd(speed1):
+    print("setting up...")
+    for i in setupCmd:
         ser.write(i)
         sleep(config.delay1)
         x = read_setup(ser)
         print(x)
-    print("checking ZSP for speed...")
+    print("checking ZSP...")
     ser.reset_input_buffer()
     # start timer
     x = resetElapsedTime()
@@ -148,7 +142,7 @@ def decodeOut(hexstr, bits):
     return(value)
 
 
-def cleanSpeeddata(inComing):
+def cleanSpeedata(inComing):
     clean_data = []
     for j in inComing:
         # print(j)
@@ -182,3 +176,12 @@ def cleanTorquedata(inComing):
         else:
             pass
     return (clean_data)
+
+def main():
+    speed1  = bytearray(b'\x010B6\x020082FFFFFF00FF\x0307')
+    print(setupCmd(speed1))
+
+
+
+if __name__ == '__main__':
+    main()
