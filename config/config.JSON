@@ -25,12 +25,12 @@
     },
 
     "pgpara" : {
-        "url" : "128.53.1.198/",
-        "port" : "5432",
-        "database" : "spt_db",
-        "schema" : "torqueandspeed",
-        "user" : "spt_admin",
-        "password" : "sptadmin"
+        "url" : "",
+        "port" : "",
+        "database" : "",
+        "schema" : "",
+        "user" : "",
+        "password" : ""
     },
 
     "graph" : {
