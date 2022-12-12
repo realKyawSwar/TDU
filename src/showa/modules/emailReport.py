@@ -55,14 +55,7 @@ def get_data(ngChLst, linky, tmaxlst, tminlst, CSRalst):
 
 
 def send_mail(bodyContent, line):
-    to_email = ["swarthien.kyaw.xivpn@showadenko.com",
-                "vincent.toh.xisev@showadenko.com",
-                "kianchuan.toh.xisey@showadenko.com",
-                "tenghuan.lim.xisgr@showadenko.com",
-                "yeochuan.ngai.xivpa@showadenko.com",
-                "muhammad.firdaus.xizym@showadenko.com",
-                "cunzhu.wang.xiskj@showadenko.com",
-                "shds_maint.sputter@showadenko.com"]
+    to_email = []
     from_email = ""
     subject = f'L{line} NG TDU Torque Graph Report'
     message = MIMEMultipart()
@@ -74,7 +67,7 @@ def send_mail(bodyContent, line):
     msgBody = message.as_string()
 
     # server = SMTP('smtp.gmail.com', 587)
-    server = SMTP("128.53.1.224")
+    server = SMTP("")
     # server.starttls()
     # server.login(from_email, '')
     server.sendmail(from_email, to_email, msgBody)
@@ -96,13 +89,7 @@ def send_NGemail(line, ngChLst, tmaxlst, tminlst, CSRalst, unResponsive, dateTim
 def send_OKemail(line):
     try:
         sender = ""
-        receivers = ["swarthien.kyaw.xivpn@showadenko.com",
-                     "vincent.toh.xisev@showadenko.com",
-                     "kianchuan.toh.xisey@showadenko.com",
-                     "tenghuan.lim.xisgr@showadenko.com",
-                     "yeochuan.ngai.xivpa@showadenko.com",
-                     "muhammad.firdaus.xizym@showadenko.com",
-                     "cunzhu.wang.xiskj@showadenko.com"]
+        receivers = []
         message = MIMEMultipart()
         message["Subject"] = f"L{line} TDU torque graph collection is completed"
         message["From"] = "Sputter Automation Bot<SHDS.Spt_maint@showadenko.com>"
@@ -123,7 +110,7 @@ TDU Automation Bot
         message.attach(part1)
 
         # showa settings
-        smtpObj = smtplib.SMTP("128.53.1.224")
+        smtpObj = smtplib.SMTP("")
         smtpObj.sendmail(sender, receivers, message.as_string())
         smtpObj.quit()
         print("email sent")
