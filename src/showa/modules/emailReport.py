@@ -9,7 +9,7 @@ from showa.modules import plotting
 
 
 env = Environment(
-    loader=FileSystemLoader('C:\\Users\\sputter.maint\\Desktop\\TDU_V5\\Automated TDU Torque Extraction\\src\\templates'))
+    loader=FileSystemLoader('src\\templates'))
 
 
 def find(pattern, path):
@@ -30,7 +30,7 @@ def ngLinks(line, listy, dateTime):
     newLinkList = []
     for i in linky:
         if i[:1] == "P":
-            rDrive = "R:\\SPECIAL\\MEASUREMENT" + (i[2:])
+            rDrive = "" + (i[2:])
             newLinkList.append(rDrive)
         else:
             pass
@@ -60,7 +60,7 @@ def send_mail(bodyContent, line):
     subject = f'L{line} NG TDU Torque Graph Report'
     message = MIMEMultipart()
     message['Subject'] = subject
-    message['From'] = "Sputter Automation Bot<SHDS.Spt_maint@showadenko.com>"
+    message['From'] = ""
     message['To'] = ""
 
     message.attach(MIMEText(bodyContent, "html"))
@@ -92,7 +92,7 @@ def send_OKemail(line):
         receivers = []
         message = MIMEMultipart()
         message["Subject"] = f"L{line} TDU torque graph collection is completed"
-        message["From"] = "Sputter Automation Bot<SHDS.Spt_maint@showadenko.com>"
+        message["From"] = ""
         message["To"] = ""
         content = """Dear Engineers,
 
@@ -100,7 +100,6 @@ def send_OKemail(line):
 Good job! All look pretty well. Keep up the excellent work.
 Kindly visit the following directory in file browser to review.
 
-R:\SPECIAL\MEASUREMENT\PROD\CHECKLIST\Sputter Equipment\TDU Torque
 
 Thank you.
 Best regards,
